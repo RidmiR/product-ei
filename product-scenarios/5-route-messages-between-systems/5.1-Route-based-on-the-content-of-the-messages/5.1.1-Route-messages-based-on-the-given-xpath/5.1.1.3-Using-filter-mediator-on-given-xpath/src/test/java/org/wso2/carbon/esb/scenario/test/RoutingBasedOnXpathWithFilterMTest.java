@@ -18,6 +18,8 @@
 
 package org.wso2.carbon.esb.scenario.test;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -30,8 +32,8 @@ import org.wso2.carbon.esb.scenario.test.common.http.HttpConstants;
  * filter mediator. This includes the test cases of valid, Invalid, Null or empty cases of XPath expressions.
  */
 public class RoutingBasedOnXpathWithFilterMTest extends ScenarioTestBase {
-    String url = getApiInvocationURLHttp("5_1_API_Routing_messages_based_on_content_of_message_test" +
-            "/valid_xpath_test_with_filterM");
+
+    public static final Log log = LogFactory.getLog(RoutingBasedOnXpathWithFilterMTest.class);
 
     @BeforeClass
     public void init() throws Exception {
@@ -40,7 +42,9 @@ public class RoutingBasedOnXpathWithFilterMTest extends ScenarioTestBase {
 
     @Test(description = "5.1.1.3.1")
     public void testRouteBasedOnXpathWithValidCaseName() throws Exception {
-        String header = "5_1_1_1_1";
+        String header = "5_1";
+        String url = getApiInvocationURLHttp("5_1_API_Routing_messages_based_on_content_of_message_test" +
+                "/valid_xpath_test_with_filterM");
         String request = "<m:GetStockPrice xmlns:m=\"http://www.example.org/stock\">\n"
                        + "    <m:StockName>IBM</m:StockName>\n"
                        + "</m:GetStockPrice>";
@@ -48,6 +52,23 @@ public class RoutingBasedOnXpathWithFilterMTest extends ScenarioTestBase {
         String expectedResponse = "<m:GetStockPriceResponse xmlns:m=\"http://www.example.org/stock\">\n"
                                 + "  <m:Price>34.5</m:Price>\n"
                                 + "</m:GetStockPriceResponse>";
+
+        HTTPUtils.invokePoxEndpointAndAssert(url, request, HttpConstants.MEDIA_TYPE_TEXT_XML, header, expectedResponse,
+                200, "Switch messages based on given Xpath with valid case name");
+    }
+
+    @Test(description = "5.1.1.3.2")
+    public void testRouteBasedOnXpathWithInvalidCaseName() throws Exception {
+        String header = "5_1";
+        String url = getApiInvocationURLHttp("5_1_API_Routing_messages_based_on_content_of_message_test" +
+                "/Invalid_xpath_test_with_filterM");
+        String request = "<m:GetStockPrice xmlns:m=\"http://www.example.org/stock\">\n"
+                + "    <m:StockName>IBM</m:StockName>\n"
+                + "</m:GetStockPrice>";
+
+        String expectedResponse = "<m:GetStockPriceResponse xmlns:m=\"http://www.example.org/stock\">\n"
+                + "  <m:Price>34.5</m:Price>\n"
+                + "</m:GetStockPriceResponse>";
 
         HTTPUtils.invokePoxEndpointAndAssert(url, request, HttpConstants.MEDIA_TYPE_TEXT_XML, header, expectedResponse,
                 200, "Switch messages based on given Xpath with valid case name");

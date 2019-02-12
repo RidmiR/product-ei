@@ -57,6 +57,36 @@ public class RoutingBasedOnRegularExpressionTest extends ScenarioTestBase {
                 200, "Switch messages based on a valid regex");
     }
 
+    @Test(description = "5.1.2.1.2")
+    public void routeMessagesBasedOnInvalidRegex() throws Exception {
+        String header = "5_1";
+        String request = "<m:GetStockPrice xmlns:m=\"http://www.example.org/stock\">\n" +
+                "   <m:StockName>ABC</m:StockName>\n" +
+                "</m:GetStockPrice>";
+
+        String expectedResponse = "<m:GetStockPriceResponse xmlns:m=\"http://www.example.org/stock\">\n" +
+                "    <m:Price>34.5</m:Price>\n" +
+                "</m:GetStockPriceResponse>";
+
+        HTTPUtils.invokePoxEndpointAndAssert(url, request, HttpConstants.MEDIA_TYPE_TEXT_XML, header, expectedResponse,
+                200, "Switch messages based on a valid regex");
+    }
+
+    @Test(description = "5.1.2.1.3")
+    public void routeMessagesBasedOnEmptyRegex() throws Exception {
+        String header = "5_1";
+        String request = "<m:GetStockPrice xmlns:m=\"http://www.example.org/stock\">\n" +
+                "   <m:StockName></m:StockName>\n" +
+                "</m:GetStockPrice>";
+
+        String expectedResponse = "<m:GetStockPriceResponse xmlns:m=\"http://www.example.org/stock\">\n" +
+                "    <m:Price>34.5</m:Price>\n" +
+                "</m:GetStockPriceResponse>";
+
+        HTTPUtils.invokePoxEndpointAndAssert(url, request, HttpConstants.MEDIA_TYPE_TEXT_XML, header, expectedResponse,
+                200, "Switch messages based on a valid regex");
+    }
+
     @AfterClass(description = "Server Cleanup", alwaysRun = true)
     public void cleanup() throws Exception {
         super.cleanup();
