@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~ Copyright (c) 2019, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
   ~
   ~ WSO2 Inc. licenses this file to you under the Apache License,
   ~ Version 2.0 (the "License"); you may not use this file except
   ~ in compliance with the License.
   ~ You may obtain a copy of the License at
   ~
-  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~    http://www.apache.org/licenses/LICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing,
   ~ software distributed under the License is distributed on an
@@ -27,72 +27,31 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>scenarios-commons</artifactId>
-    <name>Integration test scenarios commons</name>
-    <packaging>jar</packaging>
+    <artifactId>aggregate</artifactId>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.wso2.maven</groupId>
-                <artifactId>carbon-p2-plugin</artifactId>
-                <version>${carbon.p2.plugin.version}</version>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.4.3</version>
+                <inherited>false</inherited>
                 <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <aggregate>true</aggregate>
+                    <reportsDirectories>
+                        <reportsDirectory>${HOME}/aggregate/test-result</reportsDirectory>
+                    </reportsDirectories>
+                    <outputDirectory>${basedir}/target/aggregate-surefire-report</outputDirectory>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.authenticator.stub</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.automationutils</groupId>
-            <artifactId>org.wso2.carbon.integration.common.admin.client</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.ei</groupId>
-            <artifactId>integration-test-utils</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.awaitility</groupId>
-            <artifactId>awaitility</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-lang.wso2</groupId>
-            <artifactId>commons-lang</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.json.wso2</groupId>
-            <artifactId>json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
 </project>
