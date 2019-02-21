@@ -1,13 +1,15 @@
 import shutil
 import os
 
-dest='${HOME}/aggregate/test-result'
-start = '${HOME}'
+cwd = os.getcwd()
+
+dest=cwd+'/aggregate/test-result'
+os.mkdir(dest)
 
 # read all the TEST-TestSuite.xml and write the file paths to the new text file
 #  to get the count of the testsuit.xml files
-filepath = open('${HOME}/aggregate/path.txt', 'w')
-for dirpath, dirnames, filenames in os.walk(start):
+filepath = open(cwd+'/aggregate/path.txt', 'w')
+for dirpath, dirnames, filenames in os.walk(cwd):
     for filename in filenames:
         if filename == "TEST-TestSuite.xml":
             filename = os.path.join(dirpath, filename)
@@ -16,7 +18,7 @@ for dirpath, dirnames, filenames in os.walk(start):
 filepath.close()
 
 # get the TEST-TestSuite.xml file count
-count = len(open('${HOME}/aggregate/path.txt').readlines(  ))
+count = len(open(cwd+'/aggregate/path.txt').readlines(  ))
 
 # rename the TEST-TestSuite.xml files by adding a index as a suffix and
 # copying TEST-TestSuite.xml file to test-result folder inside aggregate
@@ -35,3 +37,5 @@ while ii < count :
                 ii = ii + 1
                 break
 quit()
+
+
